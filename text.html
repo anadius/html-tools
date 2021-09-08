@@ -1,0 +1,47 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<title>Display text</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style>
+  body { text-align: center; }
+  textarea, button { width: 90% }
+  span {
+    font-size: 20pt;
+    font-weight: bold;
+  }
+</style>
+</head>
+
+<body>
+
+<div id="form">
+<textarea></textarea><br><button>Get link</button>
+</div>
+
+<script>
+const urlParams = new URLSearchParams(window.location.search);
+const lines = urlParams.getAll('l');
+if(lines.length == 0) {
+  document.querySelector('button').addEventListener('click', e => {
+    e.preventDefault();
+    const urlParams = new URLSearchParams();
+    for(const line of document.querySelector('textarea').value.split('\n')) {
+      urlParams.append('l', line);
+    }
+    const url = new URL(document.location);
+    url.hash = '';
+    url.search = urlParams;
+    document.querySelector('#form').innerHTML = `<code>${url.toString()}</code>`;
+  });
+}
+else {
+  document.querySelector('#form').remove();
+  for(let line of lines) {
+    document.body.innerHTML += `<span>${line}</span><br>`;
+  }
+}
+</script>
+
+</body>
+</html>

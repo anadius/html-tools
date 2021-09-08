@@ -1,0 +1,42 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<title>Redirect</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style>
+  body { text-align: center; }
+  input, button { width: 90% }
+  span {
+    font-size: 20pt;
+    font-weight: bold;
+  }
+</style>
+</head>
+
+<body>
+
+<div id="form">
+<input><br><button>Get link</button>
+</div>
+
+<script>
+const urlParams = new URLSearchParams(window.location.search);
+const redir = urlParams.getAll('r');
+if(redir.length == 0) {
+  document.querySelector('button').addEventListener('click', e => {
+    e.preventDefault();
+    const urlParams = new URLSearchParams();
+    urlParams.append('r', document.querySelector('input').value);
+    const url = new URL(document.location);
+    url.hash = '';
+    url.search = urlParams;
+    document.querySelector('#form').innerHTML = `<code>${url.toString()}</code>`;
+  });
+}
+else {
+  document.location = redir[0];
+}
+</script>
+
+</body>
+</html>
